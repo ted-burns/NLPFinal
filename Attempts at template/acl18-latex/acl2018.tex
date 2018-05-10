@@ -1,0 +1,124 @@
+%
+% File acl2018.tex
+%
+%% Based on the style files for ACL-2017, with some changes, which were, in turn,
+%% Based on the style files for ACL-2015, with some improvements
+%%  taken from the NAACL-2016 style
+%% Based on the style files for ACL-2014, which were, in turn,
+%% based on ACL-2013, ACL-2012, ACL-2011, ACL-2010, ACL-IJCNLP-2009,
+%% EACL-2009, IJCNLP-2008...
+%% Based on the style files for EACL 2006 by 
+%%e.agirre@ehu.es or Sergi.Balari@uab.es
+%% and that of ACL 08 by Joakim Nivre and Noah Smith
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2018}
+\usepackage{times}
+\usepackage{latexsym}
+%\usepackage{biblatex}
+%\usepackage{float}
+\usepackage{url}
+
+%\aclfinalcopy % Uncomment this line for the final submission
+%\def\aclpaperid{***} %  Enter the acl Paper ID here
+
+%\setlength\titlebox{5cm}
+% You can expand the titlebox if you need extra space
+% to show all the authors. Please do not make the titlebox
+% smaller than 5cm (the original size); we will check this
+% in the camera-ready version and ask you to change it back.
+
+\newcommand\BibTeX{B{\sc ib}\TeX}
+
+\title{Topic Significance for Classification of Russian Tweets}
+
+\author{Teddy Burns  \\
+  %Affiliation / Address line 1 \\
+  %Affiliation / Address line 2 \\
+  %Affiliation / Address line 3 \\
+  %{\tt email@domain} \\
+  \And
+  Anthony Trasatti \\
+  %Affiliation / Address line 1 \\
+  %Affiliation / Address line 2 \\
+  %Affiliation / Address line 3 \\
+  %{\tt email@domain} \\
+  \And
+  Sarah Whalen \\
+  %Affiliation / Address line 1 \\
+  %Affiliation / Address line 2 \\
+  %Affiliation / Address line 3 \\
+  %{\tt email@domain} 
+  }
+
+\date{}
+
+\begin{document}
+\maketitle
+% \begin{abstract}
+%  This document contains the instructions for preparing a camera-ready
+% manuscript for the proceedings of ACL 2018. The document itself
+% \end{abstract}
+
+\section{Introduction}
+
+Our project will focus on Russian propaganda tweets from the 2016 American presidential election. We find this particularly interesting because it is a relatively recent phenomenon (and one likely to reoccur in upcoming elections) that poses a threat to our democratic process. We plan to build a topic model, and use the topics found as features in a classifier for Russian vs. American tweets centered around the election in question. 
+
+We will have a topic model that is built on a combination of the Russian and the non-Russian tweets. We plan to then use these topics as features in a classifier, to determine if the inclusion of topics significantly improves the classifier. If the classifier is improved by the inclusion of topic as a feature, we can assume that the topics of Russian propaganda tweets are significant, and draw corresponding conclusions about the nature of the Russian propaganda machine, given the topics that prove to be significant. 
+
+
+\section{Background}
+
+Badawy et. all (2016) were investigating the dissemination of the information on twitter that the Russian Troll accounts spread as well as its effects. They were focused on the question of who was engaging with the Russian trolls on twitter and what was the role of the political ideology. This included looking at how often liberal and conservatives accounts retweeted the Russian Troll tweets, the total number of tweets by these users, and the number bots on each side. The data used for this included 43 million elections-related posts retrieved from twitter between the dates September 16 and October 21, 2016, which included 5.7 million distinct users. One of the first things they did with the data was classify it into liberals and conservatives. The classifier was build on labeled propagation to classify the tweets into liberal or conservative with over 90% precision and recall. The results showed that significantly more of the trolls were producing conservative content and over 25 times as many conservatives retweeted content from the trolls. One critique is that one thing that may need to be accounted for was if there were many more conservative Russian troll accounts than that could lead to why so many more conservatives were engaging in activity with the trolls. However, the classifier of liberal vs. conservative sentiment is very cool.
+
+Russian propaganda has historically been categorized according to the persuasive editing techniques associated with valorizing films such as  "Battleship Potemkin," however, the emergence of new communication media have spurred a contemporary brand of Russian propaganda, characterized by Paul et al.?s four distinctive features: (1) a high-volume and multi channel approach, (2) rapid, continuous, and repetitive messaging, (3) a lack of commitment to objective reality, and (4) a lack of commitment to consistency. (2016) Paul et al. argues for the effectiveness of the contemporary Russian propaganda model using literature on influence and persuasion, as well as experiment-based psychological research. Results indicated the effectiveness of such a propaganda model, and pulled upon several phenomena, including the   "Multiple Sources Effect  " (Harkins et al. 1981; Harkins et al. 1987) in which the presence of multiple sources espousing the same information increase the perceived truthfulness of said news story and the   "Sleeper Effect  " (Pornpitakpan 2004; Henkel et al. 2011) in which  "low-credibility sources manifest greater persuasive impact with the passage of time, " as a result of their being dissociated from the original source. (Paul et al. 2016) Paul et al. corroborate the effectiveness of Russian propaganda and suggest, given the nature of persuasion employed, that Russian propaganda be countered by ether (a) cutting of access to it or (b) producing messaging that undermines the ultimate goal of the propaganda (which is often unknown). Their results, while informative regarding the likely defining features of Russian propaganda (as well as informative regarding the means by which those features persuade), do not provide quantitative evidence to prove these characteristics as most important in the Russian propaganda machine. 
+
+\section{Data}
+
+NBC released a corpora of Russian twitter data containing over 200,000 deleted tweets. This corpora contains both tweets that were generated by the Russian trolls and those from original users that were retweeted by the trolls. All the tweets are in the same domain because they were all tweeted or retweeted by the Russian Troll accounts. We have seperated the tweets into two groups, Russian troll generated and Non-Russian troll generated to see if we can build a classifier that identifies if the tweets were generated by the Russian troll accounts. 
+
+After removing retweets that were originally troll generated and any other duplicate tweets, there are 173, 936 unique tweets remaining. What percentage are retweets vs. original?
+
+142,929 original (82\%)
+31,007 retweets  (18\%)
+
+\section{Methods}
+
+Our determination of topic significance in Russian propaganda tweets from the 2016 American Presidential election was calculated through the improvement to a neural net classifier with the inclusion of topic as a feature. 
+
+4.1 Classification
+
+Classification of tweets as Russian or non-Russian was first performed without the inclusion of topics as feature. This classifier thus acted as our baseline. We used a neural net classifier from scikit-learn, Python?s machine learning library, and a training set of Russian and non-Russian tweets transformed into feature vectors. The features included were: 
+
+This classifier was then tested on a held out data set to determine precision, recall, and f-1 score. These measures were later used to evaluate our final results, as discussed in section 4.3. 
+
+4.2 Topic Modeling
+
+In order to determine the importance of topic in the detection of Russian politically-driven tweets, we created a topic model to predict common abstract topics of our training data as a whole. Our topic model, a word2vec model trained on Google News, created tweet embeddings through the summation into a single vector of the individual token embeddings in the body of each tweet. Those vectors, consisting of summed word embeddings for each token in the tweet, were mapped onto a semantic space by the word2vec model. The semantic space was then partitioned in order to determine topic groups, or clusters using K-Means clustering, a partitioning technique which determines k clusters of n objects by grouping a given object with the cluster with the nearest mean.
+
+It is important to note that in building the topic model we did not differentiate Russian from non-Russian tweets. In creating a topic model from the dataset as a whole (with the exception of held out testing data) topic clusters are independent of tweet origin, thus the inclusion of topic as a feature in the classifier will only be successful if the k clusters naturally divide between Russian and non-Russian tweets. A cluster made almost entirely of Russian tweets in a model including both Russian and non-Russian tweets would indicate that the Russian tweets can be characterized, and thus classified by topic. 
+
+In order to improve the model, the number of clusters, k, was tweaked to achieve greater improvements in the classifier from section 4.3 as compared to thee classifier from section 4.1. 
+
+*While we are still experimenting with the number of topics, or number of clusters, to be pulled from our topic model, the topics found will be used as additional features in a replica of the neural net classifier from section 4.1 in order to determine topic significant in the classification of Russian vs. non-Russian tweets. 
+
+4.3 Classification with Topics
+
+Our second round of classification replicated our first classifier exactly with the exception of the inclusion of topic as a feature. In the creation of tweet vectors for the classification of any given tweet, we determined the nearest topic cluster, using the model from section 4.2, and demarcated the tweet as belonging to a specific topic cluster. For example, if a tweet were determined by the topic model to belong to the i cluster out of k clusters, the feature vector for that tweet would have the integer i in the index associated with tweet topic. 
+
+The classifier was then evaluated using a held-out data set of Russian and non-Russian tweets to determine precision, recall, and f-1 score. These measures were compared with those of the classifier from section 4.1 to determine improvement based upon the inclusion of topic as a feature. The resulting measures were improved through the shifting of the number of topic clusters considered, as is discussed in section 4.2. \cite{Aho:72}
+
+\section{Results}
+
+\section{Conclusions and Future Work}
+
+%\section*{Acknowledgments}
+
+\bibliography{acl2018}
+\bibliographystyle{acl_natbib}
+
+\cite{Aho:72}
+\bibliography
+
+
+\end{document}
